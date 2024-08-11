@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones de Productos del Hogar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            color: #4CAF50;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background-color 0.3s;
+        }
+        li:hover {
+            background-color: #e0e0e0;
+        }
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            .product-image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Recomendaciones de Productos del Hogar</h1>
+    <div class="container">
+        <div id="previousPurchases" class="section">
+            <h2>Compras Previas</h2>
+            <ul id="purchaseList"></ul>
+        </div>
+        <div id="recommendations" class="section">
+            <h2>Productos Recomendados</h2>
+            <ul id="recommendationList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de compras previas del cliente
+        const previousPurchases = [
+            'Sofá',
+            'Cafetera',
+            'Lámpara de mesa'
+        ];
+
+        // Base de datos simulada de productos del hogar con imágenes y enlaces
+        const productDatabase = {
+            'Sofá': {
+                relatedProducts: ['Cojín decorativo', 'Manta', 'Mesa auxiliar'],
+                images: {
+                    'Cojín decorativo': 'https://via.placeholder.com/60?text=Cojín',
+                    'Manta': 'https://via.placeholder.com/60?text=Manta',
+                    'Mesa auxiliar': 'https://via.placeholder.com/60?text=Mesa'
+                },
+                links: {
+                    'Cojín decorativo': 'https://example.com/cushion',
+                    'Manta': 'https://example.com/blanket',
+                    'Mesa auxiliar': 'https://example.com/side_table'
+                }
+            },
+            'Cafetera': {
+                relatedProducts: ['Tazas de café', 'Molino de café', 'Juego de cucharas'],
+                images: {
+                    'Tazas de café': 'https://via.placeholder.com/60?text=Tazas',
+                    'Molino de café': 'https://via.placeholder.com/60?text=Molino',
+                    'Juego de cucharas': 'https://via.placeholder.com/60?text=Cucharas'
+                },
+                links: {
+                    'Tazas de café': 'https://example.com/coffee_mugs',
+                    'Molino de café': 'https://example.com/coffee_grinder',
+                    'Juego de cucharas': 'https://example.com/spoon_set'
+                }
+            },
+            'Lámpara de mesa': {
+                relatedProducts: ['Bombilla LED', 'Organizador de escritorio', 'Lámpara de pie'],
+                images: {
+                    'Bombilla LED': 'https://via.placeholder.com/60?text=Bombilla',
+                    'Organizador de escritorio': 'https://via.placeholder.com/60?text=Organizador',
+                    'Lámpara de pie': 'https://via.placeholder.com/60?text=Lámpara'
+                },
+                links: {
+                    'Bombilla LED': 'https://example.com/led_bulb',
+                    'Organizador de escritorio': 'https://example.com/desk_organizer',
+                    'Lámpara de pie': 'https://example.com/floor_lamp'
+                }
+            }
+        };
+
+        // Función para mostrar las compras previas
+        function displayPreviousPurchases(purchases) {
+            const purchaseList = document.getElementById('purchaseList');
+            purchaseList.innerHTML = '';
+            purchases.forEach(purchase => {
+                const li = document.createElement('li');
+                li.textContent = purchase;
+                purchaseList.appendChild(li);
+            });
+        }
+
+        // Función de "IA" para generar recomendaciones personalizadas
+        function generateRecommendations(purchases) {
+            // Algoritmo simple para simular recomendaciones
+            const recommendations = new Set();
+            purchases.forEach(purchase => {
+                const relatedProducts = productDatabase[purchase]?.relatedProducts;
+                if (relatedProducts) {
+                    relatedProducts.forEach(product => recommendations.add(product));
+                }
+            });
+            // Simular una "IA" que añade recomendaciones adicionales aleatorias
+            const extraRecommendations = ['Estante de libros', 'Candelabro', 'Reloj de pared'];
+            extraRecommendations.forEach(product => recommendations.add(product));
+            return Array.from(recommendations);
+        }
+
+        // Función para mostrar las recomendaciones con imágenes y enlaces
+        function displayRecommendations(recommendations) {
+            const recommendationList = document.getElementById('recommendationList');
+            recommendationList.innerHTML = '';
+            recommendations.forEach(recommendation => {
+                // Buscar la imagen y el enlace para la recomendación
+                const product = Object.values(productDatabase).find(db => db.relatedProducts.includes(recommendation));
+                const productImage = product?.images[recommendation];
+                const productLink = product?.links[recommendation];
+                
+                const li = document.createElement('li');
+                if (productImage) {
+                    const img = document.createElement('img');
+                    img.src = productImage;
+                    img.alt = recommendation;
+                    img.className = 'product-image';
+                    li.appendChild(img);
+                }
+                const a = document.createElement('a');
+                a.href = productLink || '#';
+                a.textContent = recommendation;
+                a.target = '_blank'; // Abre el enlace en una nueva pestaña
+                li.appendChild(a);
+                recommendationList.appendChild(li);
+            });
+        }
+
+        // Ejecutar funciones para mostrar las compras y recomendaciones
+        displayPreviousPurchases(previousPurchases);
+        const recommendations = generateRecommendations(previousPurchases);
+        displayRecommendations(recommendations);
+    </script>
+</body>
+</html>
